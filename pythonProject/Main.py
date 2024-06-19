@@ -116,3 +116,51 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
 
         # WICHTIG: Die Simulation endet hier, da der nächste Prozess im interactive Modus
         # nicht ausgewählt wird. Der Code muss erweitert werden, um die Ausführung fortzusetzen.
+
+        else:  # Dieser Block wird ausgeführt, wenn der vorhergehende if-Block nicht zutrifft
+            while True:  # Beginne eine unendliche Schleife, die solange läuft, bis sie manuell unterbrochen wird
+                print(f"Ausführbare Prozesse: {ausführbare_prozesse}")  # Drucke die Liste der ausführbaren Prozesse
+                try:  # Versuche den folgenden Block auszuführen, um potenzielle Fehler abzufangen
+                    nächster_prozess = int(input(
+                        "Welcher Prozess soll als nächstes ausgeführt werden? "))  # Frage den Benutzer nach der nächsten Prozessnummer und konvertiere die Eingabe in einen Integer
+
+                    if nächster_prozess in ausführbare_prozesse:  # Überprüfe, ob der eingegebene Prozess in der Liste der ausführbaren Prozesse ist
+                        break  # Wenn ja, verlasse die Schleife
+                    else:  # Wenn nein
+                        print(
+                            f"Prozess {nächster_prozess} kann nicht ausgeführt werden. Bitte wählen Sie einen anderen Prozess.")  # Informiere den Benutzer, dass dieser Prozess nicht ausgeführt werden kann
+
+                except ValueError:  # Fange den Fehler ab, wenn die Eingabe keine gültige Zahl ist
+                    print(
+                        "Ungültige Eingabe. Bitte eine gültige Prozessnummer eingeben.")  # Informiere den Benutzer über die ungültige Eingabe
+
+        # Aktualisiere den Ressourcenrestvektor mit den freigegebenen Ressourcen des ausgeführten Prozesses
+        neue_ressourcenrestvektor = (ressourcenrestvektor + Belegungs_Matrix[nächster_prozess])
+
+        # Überprüfen, ob negative Werte im neuen Ressourcenrestvektor vorhanden sind
+        if any(neue_ressourcenrestvektor < 0):  # Wenn irgendein Wert im neuen Vektor negativ ist
+            print(
+                f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}.")  # Fehlerausgabe
+            print(
+                f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")  # Drucke den aktuellen Ressourcenrestvektor
+
+            print(
+                f"Anforderungen von Prozess {nächster_prozess}: {AnforderungsMatrix[nächster_prozess]}")  # Drucke die Anforderungen des Prozesses
+            print(
+                f"Belegte Ressourcen von Prozess {nächster_prozess}: {Belegungs_Matrix[nächster_prozess]}")  # Drucke die belegten Ressourcen des Prozesses
+
+            break  # Beende die Schleife
+
+        print(
+            f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")  # Drucke den Ressourcenrestvektor nach der Ausführung des Prozesses
+
+        # Aktualisiere den Ressourcenrestvektor
+        ressourcenrestvektor = neue_ressourcenrestvektor
+
+        # Markiere den Prozess als abgeschlossen
+        finished[nächster_prozess] = True
+        print(
+            f"Prozess {nächster_prozess} ist abgeschlossen. Ressourcenrestvektor: {ressourcenrestvektor}")  # Informiere über den Abschluss des Prozesses und drucke den aktuellen Ressourcenrestvektor
+
+        print(
+            "Simulation abgeschlossen. Alle ausführbaren Prozesse wurden bearbeitet oder ein Deadlock ist aufgetreten")  # Drucke eine Abschlussmeldung der Simulation
