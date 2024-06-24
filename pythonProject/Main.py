@@ -72,7 +72,7 @@ def read_from_file(filename):
         for line in file:
             # Teilt jede Zeile in einzelne Ressourcen auf und fügt sie der Liste hinzu
             for ressourcen in line.split():
-                vektor.append(int(ressourcen)) # Das Objekt 'ressourcen' wird an das Ende der Liste 'vektor' angehängt
+                vektor.append((ressourcen)) # Das Objekt 'ressourcen' wird an das Ende der Liste 'vektor' angehängt
 
     # Wandelt die Liste in ein NumPy-Array um und gibt es zurück
     return np.array(vektor)
