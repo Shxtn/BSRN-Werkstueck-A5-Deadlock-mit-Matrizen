@@ -3,22 +3,23 @@ import numpy as np  # Importiert das NumPy-Modul, das für numerische Operatione
 import random
 import logging      # importiert das Modul logging, mit dem wir ein Verlaufsprotokoll über die Aktivitäten des Simulators erstellen können
 import argparse     # importiert das Modul argparse, wird benötigt um die Kommandozeilenargumente der Main zu analysieren und interpretieren
+from rich.prompt import Prompt, IntPrompt 
 
 def input_Ressourcenvektor():
     #Wenn der Benutzer selbst den Ressourcenvektor eingeben will, muss gefragt werden wie viele Klassen der Benutzer haben will
-    anzahl = int(input("Wie viele Ressourcenklassen haben sie: "))  # Fragt den Benutzer nach der Anzahl der Ressourcenklassen.
+    anzahl = IntPrompt.ask("Wie viele Ressourcenklassen haben sie: "))  # Fragt den Benutzer nach der Anzahl der Ressourcenklassen.
     Ressourcenvektor = []  # Erstellt eine leere Liste für den Ressourcenvektor.
 
     # Eingabe der Menge der jeweiligen Ressourcenklassen
     for i in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
-        ressource = int(input(f"Geben sie nun die Menge der Ressourcenklasse {i+1}: "))  # Fragt nach der Menge der aktuellen Ressourcenklasse.
+        ressource = intPrompt.ask(f"Geben sie nun die Menge der Ressourcenklasse {i+1}: "))  # Fragt nach der Menge der aktuellen Ressourcenklasse.
         Ressourcenvektor.append(ressource)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
 
     return Ressourcenvektor  # Gibt den Ressourcenvektor zurück.
 
 def input_Belegungsmatrix(anzahl):
     # Abfrage wie viele Prozesse der Benutzer haben will
-    Prozesse = int(input("Geben sie die Anzahl der Prozesse an: "))  # Fragt den Benutzer nach der Anzahl der Prozesse.
+    Prozesse = intPrompt.ask("Geben sie die Anzahl der Prozesse an: "))  # Fragt den Benutzer nach der Anzahl der Prozesse.
     Belegungs_Matrix = np.zeros((Prozesse, anzahl), dtype=int)  # Erstellt eine Matrix aus Nullen mit der Größe (Prozesse, anzahl).
 
     for i in range(Prozesse):  # Iteriert über die Anzahl der Prozesse.
@@ -29,7 +30,7 @@ def input_Belegungsmatrix(anzahl):
 
         # Abfrage wie viel die jeweiligen Prozesse von den oben angegebenen Ressourcenklassen benötigen
         for j in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
-            Vektor = int(input(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:"))  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
+            Vektor = intPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:"))  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
 
             # Hinzufügen des Vektors zur Liste
             Belegung.append(Vektor)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
@@ -53,7 +54,7 @@ def input_Anforderungsmatrix(Prozesse, anzahl):
         # Schleife über jede Ressourcenklasse
         for l in range(anzahl):
             # Fragt den Benutzer, wie viele Ressourcen der aktuellen Klasse der aktuelle Prozess benötigt
-            Vektor = int(input(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:"))
+            Vektor = intPrompt.Ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:"))
 
             # Fügt die Benutzerangabe zur Liste der Anforderungen hinzu
             Anforderung.append(Vektor) # Das Objekt 'Vektor' wird an das Ende der Liste 'Anforderung' angehängt
