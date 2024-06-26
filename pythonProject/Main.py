@@ -4,6 +4,9 @@ import random
 import logging      # importiert das Modul logging, mit dem wir ein Verlaufsprotokoll über die Aktivitäten des Simulators erstellen können
 import argparse     # importiert das Modul argparse, wird benötigt um die Kommandozeilenargumente der Main zu analysieren und interpretieren
 from rich.prompt import Prompt, IntPrompt 
+from rich.console import Console
+
+console = Console()
 
 def input_Ressourcenvektor():
     #Wenn der Benutzer selbst den Ressourcenvektor eingeben will, muss gefragt werden wie viele Klassen der Benutzer haben will
@@ -100,7 +103,7 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
     # Berechnen des initialen Ressourcenrestvektors
     # Dies erfolgt durch Subtrahieren der summierten Belegung von den verfügbaren Ressourcen
     ressourcenrestvektor = Ressourcenvektor - np.sum(Belegungs_Matrix, axis=0)
-    print(f"Initialer Ressourcenrestvektor: {ressourcenrestvektor}")
+    console.print(f"Initialer Ressourcenrestvektor: {ressourcenrestvektor}")
 
     logger.info(f"Berechnung und Ausgabe initialer Restressourcenvektor: {ressourcenrestvektor}")
 
@@ -120,7 +123,7 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
 
         # Wenn keine ausführbaren Prozesse vorhanden sind, liegt ein Deadlock vor
         if not ausführbare_prozesse:
-            print("Deadlock: Kein Prozess kann ausgeführt werden.")
+            console.print("Deadlock: Kein Prozess kann ausgeführt werden.")
 
             logger.info("Kein Prozess ausführbar, Deadlock!")
             break
@@ -136,9 +139,9 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
 
         else:  # Dieser Block wird ausgeführt, wenn der vorhergehende if-Block nicht zutrifft
             while True:  # Beginne eine unendliche Schleife, die solange läuft, bis sie manuell unterbrochen wird
-                print(f"Ausführbare Prozesse: {ausführbare_prozesse}")  # Drucke die Liste der ausführbaren Prozesse
+                console.print(f"Ausführbare Prozesse: {ausführbare_prozesse}")  # Drucke die Liste der ausführbaren Prozesse
                 try:  # Versuche den folgenden Block auszuführen, um potenzielle Fehler abzufangen
-                    nächster_prozess = int(input( "Welcher Prozess soll als nächstes ausgeführt werden? "))  # Frage den Benutzer nach der nächsten Prozessnummer und konvertiere die Eingabe in einen Integer
+                    nächster_prozess = IntPrompt.ask( "Welcher Prozess soll als nächstes ausgeführt werden? "))  # Frage den Benutzer nach der nächsten Prozessnummer und konvertiere die Eingabe in einen Integer
 
                     logger.info(f"Auszuführender Prozess durch Benutzer gewählt: {nächster_prozess}")
 
@@ -148,12 +151,12 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
                         logger.info(f"Gewählter Prozess {nächster_prozess} ist ausführbar")
                         break  # Wenn ja, verlasse die Schleife
                     else:  # Wenn nein
-                        print(f"Prozess {nächster_prozess} kann nicht ausgeführt werden. Bitte wählen Sie einen anderen Prozess.")  # Informiere den Benutzer, dass dieser Prozess nicht ausgeführt werden kann
+                        console.print(f"Prozess {nächster_prozess} kann nicht ausgeführt werden. Bitte wählen Sie einen anderen Prozess.")  # Informiere den Benutzer, dass dieser Prozess nicht ausgeführt werden kann
 
                         logger.info(f"Gewählter Prozess {nächster_prozess} ist nicht ausführbar")
 
                 except ValueError:  # Fange den Fehler ab, wenn die Eingabe keine gültige Zahl ist
-                    print("Ungültige Eingabe. Bitte eine gültige Prozessnummer eingeben.")  # Informiere den Benutzer über die ungültige Eingabe
+                    console.print("Ungültige Eingabe. Bitte eine gültige Prozessnummer eingeben.")  # Informiere den Benutzer über die ungültige Eingabe
 
                     # Fehlermeldung im Verlaufsprotokoll über eine ungültige Nutzereingabe bei der Wahl des nächsten auszuführenden Prozesses;
                     # die folgenden "logger.error"-Zeilen der Methode funktionieren analog und sollten über den entsprechenden Eintrag
@@ -165,17 +168,17 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
 
         # Überprüfen, ob negative Werte im neuen Ressourcenrestvektor vorhanden sind
         if any(neue_ressourcenrestvektor < 0):  # Wenn irgendein Wert im neuen Vektor negativ ist
-            print(f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}.")  # Fehlerausgabe
+            console.print(f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}.")  # Fehlerausgabe
             logger.error(f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}")
-            print(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")  # Drucke den aktuellen Ressourcenrestvektor
+            console.print(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")  # Drucke den aktuellen Ressourcenrestvektor
             logger.error(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")
-            print(f"Anforderungen von Prozess {nächster_prozess}: {AnforderungsMatrix[nächster_prozess]}")  # Drucke die Anforderungen des Prozesses
+            console.print(f"Anforderungen von Prozess {nächster_prozess}: {AnforderungsMatrix[nächster_prozess]}")  # Drucke die Anforderungen des Prozesses
             logger.error(f"Anforderungen von Prozess {nächster_prozess}: {AnforderungsMatrix[nächster_prozess]}")
-            print(f"Belegte Ressourcen von Prozess {nächster_prozess}: {Belegungs_Matrix[nächster_prozess]}")  # Drucke die belegten Ressourcen des Prozesses
+            console.print(f"Belegte Ressourcen von Prozess {nächster_prozess}: {Belegungs_Matrix[nächster_prozess]}")  # Drucke die belegten Ressourcen des Prozesses
             logger.error(f"Belegte Ressourcen von Prozess {nächster_prozess}: {Belegungs_Matrix[nächster_prozess]}")
             break  # Beende die Schleife
 
-        print(f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")  # Drucke den Ressourcenrestvektor nach der Ausführung des Prozesses
+        console.print(f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")  # Drucke den Ressourcenrestvektor nach der Ausführung des Prozesses
         logger.info(f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")
 
         # Aktualisiere den Ressourcenrestvektor
@@ -183,10 +186,10 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
 
         # Markiere den Prozess als abgeschlossen
         finished[nächster_prozess] = True
-        print(f"Prozess {nächster_prozess} ist abgeschlossen. Ressourcenrestvektor: {ressourcenrestvektor}")  # Informiere über den Abschluss des Prozesses und drucke den aktuellen Ressourcenrestvektor
+        console.print(f"Prozess {nächster_prozess} ist abgeschlossen. Ressourcenrestvektor: {ressourcenrestvektor}")  # Informiere über den Abschluss des Prozesses und drucke den aktuellen Ressourcenrestvektor
         logger.info(f"Prozess {nächster_prozess} abgeschlossen, Ressourcenrestvektor: {ressourcenrestvektor}")
 
-        print("Simulation abgeschlossen. Alle ausführbaren Prozesse wurden bearbeitet oder ein Deadlock ist aufgetreten")  # Drucke eine Abschlussmeldung der Simulation
+        console.print("Simulation abgeschlossen. Alle ausführbaren Prozesse wurden bearbeitet oder ein Deadlock ist aufgetreten")  # Drucke eine Abschlussmeldung der Simulation
         logger.info("Simulation abgeschlossen, alle ausführbaren Prozesse bearbeitet oder Deadlock")
 
 
@@ -230,7 +233,7 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe des Ressourcenvektors
         ressourcenvektor = input_Ressourcenvektor()
-        print("Ressourcenvektor", ressourcenvektor)
+        console.print("Ressourcenvektor", ressourcenvektor)
         logger.info(f"Eingegebener Ressourcenvektor: {ressourcenvektor}")
 
         # Anzahl der Ressourcen wird bestimmt und in der Variablen "anzahl" gespeichert
@@ -238,7 +241,7 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe der Belegungsmatrixx mit Übergabe der Anzahl der Ressourcen
         belegungsmatrix = input_Belegungsmatrix(anzahl)
-        print("Belegungsmatrix\n", belegungsmatrix)
+        console.print("Belegungsmatrix\n", belegungsmatrix)
         logger.info(f"Eingegebene Belegungsmatrix:\n {belegungsmatrix}")
 
         # Anzahl der Prozesse wird bestimmt und in der Variablen "prozesse" gespeichert
@@ -247,12 +250,12 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe der Anforderungsmatrix mit Übergabe der Anzahl der Prozesse und Ressourcen
         anforderungsmatrix = input_Anforderungsmatrix(prozesse, anzahl)
-        print("Anforderungsmatrix\n", anforderungsmatrix)
+        console.print("Anforderungsmatrix\n", anforderungsmatrix)
         logger.info(f"Eingegebene Anforderungsmatrix:\n {anforderungsmatrix}")
 
         # Ausführung der "simulate_processes"-Methode mit anschließender Ausgabe des Ergebnisses
         simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, args.noninteractive, logger)
-        print(simulate_processes)
+        console.print(simulate_processes)
         logger.info(f"Simulation zur Überprüfung auf Deadlock gestartet: {simulate_processes}")
 
     # überprüft, ob der Modus zum Einlesen von Dateien gewählt wurde
@@ -262,7 +265,7 @@ def main():
 
         # Überprüfung, ob die Dateinamen korrekt in die Kommandozeile eingegeben wurden und gibt Fehlermeldung aus, falls nicht
         if not (args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix):
-            print(
+            console.print(
                 "Fehler: Wenn der Modus 'd' gewählt wird, müssen die Namen der Dateien für den Ressourcenvektor, die Belegungsmatrix und die Anforderungsmatrix eingegeben werden ")
             logger.error(
                 "Fehler: Kein Dateiname für Einlesen des Ressourcenvektors, der Belegungsmatrix oder der Anforderungsmatrix eingegeben")
@@ -271,7 +274,7 @@ def main():
         # Main-Methode durchläuft die gleichen Schritte wie im manuellen Modeus, nur dass die Daten durch das Auslesen der Dateien
         # und nicht mehr durch manuelle Eingabe eingespeist werden
         ressourcenvektor = read_from_file(args.ressourcenvektor)
-        print("Ressourcenvektor:", ressourcenvektor)
+        console.print("Ressourcenvektor:", ressourcenvektor)
         logger.info(f"Eingelesener Ressourcenvektor: {ressourcenvektor}")
 
         anzahl = len(ressourcenvektor)
@@ -279,15 +282,15 @@ def main():
         # die ".reshape"-Methode mit den übergebenen Parametern sorgt dafür, dass aus den Daten der eingelesenen Datei
         # eine zweidimensionale Matrix mit "anzahl" Spalten  und einer errechneten Anzahl von Zeilen erzeugt wird
         belegungsmatrix = read_from_file(args.belegungsmatrix).reshape(-1, anzahl)
-        print("Belegungsmatrix:\n", belegungsmatrix)
+        console.print("Belegungsmatrix:\n", belegungsmatrix)
         logger.info(f"Eingelesene Belegungsmatrix:\n {belegungsmatrix}")
 
         anforderungsmatrix = read_from_file(args.anforderungsmatrix).reshape(-1, anzahl)
-        print("Anforderungsmatrix:\n", anforderungsmatrix)
+        console.print("Anforderungsmatrix:\n", anforderungsmatrix)
         logger.info(f"Eingelesene Anforderungsmatrix:\n {anforderungsmatrix}")
 
         simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, args.noninteractive, logger)
-        print(simulate_processes)
+        console.print(simulate_processes)
         logger.info(f"Simulation zur Überprüfung auf Deadlock gestartet: {simulate_processes}")
 
 
