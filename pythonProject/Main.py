@@ -5,6 +5,7 @@ import logging      # importiert das Modul logging, mit dem wir ein Verlaufsprot
 import argparse     # importiert das Modul argparse, wird benötigt um die Kommandozeilenargumente der Main zu analysieren und interpretieren
 from rich.prompt import Prompt, IntPrompt 
 from rich.console import Console
+from rich.table import Table
 
 console = Console()
 
@@ -241,7 +242,13 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe der Belegungsmatrixx mit Übergabe der Anzahl der Ressourcen
         belegungsmatrix = input_Belegungsmatrix(anzahl)
-        console.print("Belegungsmatrix\n", belegungsmatrix)
+        #KOMMENTIEREN
+        table = Table(title="Belegungsmatrix)"
+        for col in range(Belegungs_matrix.shape[1]):
+            table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
+        for row in Belegungs_Matrix:
+            table.add_row(*map(str, row))
+        console.print(table)
         logger.info(f"Eingegebene Belegungsmatrix:\n {belegungsmatrix}")
 
         # Anzahl der Prozesse wird bestimmt und in der Variablen "prozesse" gespeichert
@@ -250,7 +257,12 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe der Anforderungsmatrix mit Übergabe der Anzahl der Prozesse und Ressourcen
         anforderungsmatrix = input_Anforderungsmatrix(prozesse, anzahl)
-        console.print("Anforderungsmatrix\n", anforderungsmatrix)
+        table = Table(title="Anforderungsmatrix")
+        for col in range(Anforderungs_Matrix.shape[1]):
+            table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
+        for row in Anforderungs_Matrix:
+            table.add_row(*map(str, row))
+        console.print(table)
         logger.info(f"Eingegebene Anforderungsmatrix:\n {anforderungsmatrix}")
 
         # Ausführung der "simulate_processes"-Methode mit anschließender Ausgabe des Ergebnisses
@@ -282,15 +294,24 @@ def main():
         # die ".reshape"-Methode mit den übergebenen Parametern sorgt dafür, dass aus den Daten der eingelesenen Datei
         # eine zweidimensionale Matrix mit "anzahl" Spalten  und einer errechneten Anzahl von Zeilen erzeugt wird
         belegungsmatrix = read_from_file(args.belegungsmatrix).reshape(-1, anzahl)
-        console.print("Belegungsmatrix:\n", belegungsmatrix)
+        table = Table(title="Belegungsmatrix")
+        for col in range(belegungsmatrix.shape[1]):
+            table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
+        for row in belegungsmatrix:
+            table.add_row(*map(str, row))
+        console.print(table)
         logger.info(f"Eingelesene Belegungsmatrix:\n {belegungsmatrix}")
 
         anforderungsmatrix = read_from_file(args.anforderungsmatrix).reshape(-1, anzahl)
-        console.print("Anforderungsmatrix:\n", anforderungsmatrix)
+        table = Table(title="Anforderungsmatrix")
+        for col in range(anforderungsmatrix.shape[1]):
+            table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
+        for row in anforderungsmatrix:
+            table.add_row(*map(str, row))
+        console.print(table)       
         logger.info(f"Eingelesene Anforderungsmatrix:\n {anforderungsmatrix}")
 
         simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, args.noninteractive, logger)
-        console.print(simulate_processes)
         logger.info(f"Simulation zur Überprüfung auf Deadlock gestartet: {simulate_processes}")
 
 
