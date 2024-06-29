@@ -11,19 +11,19 @@ console = Console()
 
 def input_Ressourcenvektor():
     #Wenn der Benutzer selbst den Ressourcenvektor eingeben will, muss gefragt werden wie viele Klassen der Benutzer haben will
-    anzahl = IntPrompt.ask("Wie viele Ressourcenklassen haben sie: "))  # Fragt den Benutzer nach der Anzahl der Ressourcenklassen.
+    anzahl = IntPrompt.ask("Wie viele Ressourcenklassen haben sie: ")  # Fragt den Benutzer nach der Anzahl der Ressourcenklassen.
     Ressourcenvektor = []  # Erstellt eine leere Liste für den Ressourcenvektor.
 
     # Eingabe der Menge der jeweiligen Ressourcenklassen
     for i in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
-        ressource = intPrompt.ask(f"Geben sie nun die Menge der Ressourcenklasse {i+1}: "))  # Fragt nach der Menge der aktuellen Ressourcenklasse.
+        ressource = IntPrompt.ask(f"Geben sie nun die Menge der Ressourcenklasse {i+1}: ")  # Fragt nach der Menge der aktuellen Ressourcenklasse.
         Ressourcenvektor.append(ressource)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
 
     return Ressourcenvektor  # Gibt den Ressourcenvektor zurück.
 
 def input_Belegungsmatrix(anzahl):
     # Abfrage wie viele Prozesse der Benutzer haben will
-    Prozesse = intPrompt.ask("Geben sie die Anzahl der Prozesse an: "))  # Fragt den Benutzer nach der Anzahl der Prozesse.
+    Prozesse = IntPrompt.ask("Geben sie die Anzahl der Prozesse an: ")  # Fragt den Benutzer nach der Anzahl der Prozesse.
     Belegungs_Matrix = np.zeros((Prozesse, anzahl), dtype=int)  # Erstellt eine Matrix aus Nullen mit der Größe (Prozesse, anzahl).
 
     for i in range(Prozesse):  # Iteriert über die Anzahl der Prozesse.
@@ -34,7 +34,7 @@ def input_Belegungsmatrix(anzahl):
 
         # Abfrage wie viel die jeweiligen Prozesse von den oben angegebenen Ressourcenklassen benötigen
         for j in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
-            Vektor = intPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:"))  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
+            Vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:")  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
 
             # Hinzufügen des Vektors zur Liste
             Belegung.append(Vektor)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
@@ -58,7 +58,7 @@ def input_Anforderungsmatrix(Prozesse, anzahl):
         # Schleife über jede Ressourcenklasse
         for l in range(anzahl):
             # Fragt den Benutzer, wie viele Ressourcen der aktuellen Klasse der aktuelle Prozess benötigt
-            Vektor = intPrompt.Ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:"))
+            Vektor = IntPrompt.Ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
 
             # Fügt die Benutzerangabe zur Liste der Anforderungen hinzu
             Anforderung.append(Vektor) # Das Objekt 'Vektor' wird an das Ende der Liste 'Anforderung' angehängt
@@ -142,7 +142,7 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
             while True:  # Beginne eine unendliche Schleife, die solange läuft, bis sie manuell unterbrochen wird
                 console.print(f"Ausführbare Prozesse: {ausführbare_prozesse}")  # Drucke die Liste der ausführbaren Prozesse
                 try:  # Versuche den folgenden Block auszuführen, um potenzielle Fehler abzufangen
-                    nächster_prozess = IntPrompt.ask( "Welcher Prozess soll als nächstes ausgeführt werden? "))  # Frage den Benutzer nach der nächsten Prozessnummer und konvertiere die Eingabe in einen Integer
+                    nächster_prozess = IntPrompt.ask( "Welcher Prozess soll als nächstes ausgeführt werden? ")  # Frage den Benutzer nach der nächsten Prozessnummer und konvertiere die Eingabe in einen Integer
 
                     logger.info(f"Auszuführender Prozess durch Benutzer gewählt: {nächster_prozess}")
 
@@ -243,10 +243,10 @@ def main():
         # manuelle Eingabe und anschließende Ausgabe der Belegungsmatrixx mit Übergabe der Anzahl der Ressourcen
         belegungsmatrix = input_Belegungsmatrix(anzahl)
         #KOMMENTIEREN
-        table = Table(title="Belegungsmatrix)"
-        for col in range(Belegungs_matrix.shape[1]):
+        table = Table(title="Belegungsmatrix")
+        for col in range(belegungsmatrix.shape[1]):
             table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
-        for row in Belegungs_Matrix:
+        for row in belegungsmatrix:
             table.add_row(*map(str, row))
         console.print(table)
         logger.info(f"Eingegebene Belegungsmatrix:\n {belegungsmatrix}")
@@ -258,9 +258,9 @@ def main():
         # manuelle Eingabe und anschließende Ausgabe der Anforderungsmatrix mit Übergabe der Anzahl der Prozesse und Ressourcen
         anforderungsmatrix = input_Anforderungsmatrix(prozesse, anzahl)
         table = Table(title="Anforderungsmatrix")
-        for col in range(Anforderungs_Matrix.shape[1]):
+        for col in range(anforderungsmatrix.shape[1]):
             table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
-        for row in Anforderungs_Matrix:
+        for row in anforderungsmatrix:
             table.add_row(*map(str, row))
         console.print(table)
         logger.info(f"Eingegebene Anforderungsmatrix:\n {anforderungsmatrix}")
