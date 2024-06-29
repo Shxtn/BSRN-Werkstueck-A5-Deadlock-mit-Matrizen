@@ -12,63 +12,63 @@ console = Console()
 def input_Ressourcenvektor():
     #Wenn der Benutzer selbst den Ressourcenvektor eingeben will, muss gefragt werden wie viele Klassen der Benutzer haben will
     anzahl = IntPrompt.ask("Wie viele Ressourcenklassen haben sie: ")  # Fragt den Benutzer nach der Anzahl der Ressourcenklassen.
-    Ressourcenvektor = []  # Erstellt eine leere Liste für den Ressourcenvektor.
+    ressourcenvektor = []  # Erstellt eine leere Liste für den Ressourcenvektor.
 
     # Eingabe der Menge der jeweiligen Ressourcenklassen
     for i in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
         ressource = IntPrompt.ask(f"Geben sie nun die Menge der Ressourcenklasse {i+1}: ")  # Fragt nach der Menge der aktuellen Ressourcenklasse.
-        Ressourcenvektor.append(ressource)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
+        ressourcenvektor.append(ressource)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
 
-    return Ressourcenvektor  # Gibt den Ressourcenvektor zurück.
+    return ressourcenvektor  # Gibt den Ressourcenvektor zurück.
 
 def input_Belegungsmatrix(anzahl):
     # Abfrage wie viele Prozesse der Benutzer haben will
-    Prozesse = IntPrompt.ask("Geben sie die Anzahl der Prozesse an: ")  # Fragt den Benutzer nach der Anzahl der Prozesse.
-    Belegungs_Matrix = np.zeros((Prozesse, anzahl), dtype=int)  # Erstellt eine Matrix aus Nullen mit der Größe (Prozesse, anzahl).
+    prozesse = IntPrompt.ask("Geben sie die Anzahl der Prozesse an: ")  # Fragt den Benutzer nach der Anzahl der Prozesse.
+    belegungsmatrix = np.zeros((Prozesse, anzahl), dtype=int)  # Erstellt eine Matrix aus Nullen mit der Größe (Prozesse, anzahl).
 
     for i in range(Prozesse):  # Iteriert über die Anzahl der Prozesse.
-        Prozessanzahl = i + 1  # Zählt die Prozessnummer.
+        prozessanzahl = i + 1  # Zählt die Prozessnummer.
 
         # Erstellung einer leeren Liste
-        Belegung = []  # Erstellt eine leere Liste für die Belegung des aktuellen Prozesses.
+        belegung = []  # Erstellt eine leere Liste für die Belegung des aktuellen Prozesses.
 
         # Abfrage wie viel die jeweiligen Prozesse von den oben angegebenen Ressourcenklassen benötigen
         for j in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
-            Vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:")  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
+            vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:")  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
 
             # Hinzufügen des Vektors zur Liste
-            Belegung.append(Vektor)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
+            belegung.append(Vektor)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
 
-        Belegungs_Matrix[i] = Belegung  # Setzt die Belegung des aktuellen Prozesses in die Belegungsmatrix.
-    return np.array(Belegungs_Matrix)  # Gibt die Belegungsmatrix als NumPy-Array zurück.
+        belegungsmatrix[i] = Belegung  # Setzt die Belegung des aktuellen Prozesses in die Belegungsmatrix.
+    return np.array(belegungsmatrix)  # Gibt die Belegungsmatrix als NumPy-Array zurück.
 
 # Die Funktion dient der Eingabe der Anforderungsmatrix
 def input_Anforderungsmatrix(Prozesse, anzahl):
     # Erstellt eine leere Anforderungsmatrix mit der angegebenen Anzahl von Prozessen und Ressourcenklassen, initialisiert mit Nullen
-    AnforderungsMatrix = np.zeros((Prozesse, anzahl), dtype=int)
+    anforderungsmatrix = np.zeros((Prozesse, anzahl), dtype=int)
 
     # Schleife über jeden Prozess
     for i in range(Prozesse):
         # Setzt die Prozessnummer fest (1-basierter Index)
-        Prozessanzahl = i + 1
+        prozessanzahl = i + 1
 
         # Erstellt eine leere Liste zur Speicherung der Anforderungen für den aktuellen Prozess
-        Anforderung = []
+        anforderung = []
 
         # Schleife über jede Ressourcenklasse
         for l in range(anzahl):
             # Fragt den Benutzer, wie viele Ressourcen der aktuellen Klasse der aktuelle Prozess benötigt
-            Vektor = IntPrompt.Ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
+            vektor = IntPrompt.Ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
 
             # Fügt die Benutzerangabe zur Liste der Anforderungen hinzu
-            Anforderung.append(Vektor) # Das Objekt 'Vektor' wird an das Ende der Liste 'Anforderung' angehängt
-            numpy_Anforderung = np.array(Anforderung)  # Konvertiert die Liste in ein NumPy-Array (wird hier aber nicht verwendet)
+            anforderung.append(vektor) # Das Objekt 'Vektor' wird an das Ende der Liste 'Anforderung' angehängt
+            numpy_Anforderung = np.array(anforderung)  # Konvertiert die Liste in ein NumPy-Array (wird hier aber nicht verwendet)
 
         # Setzt die Zeile der Anforderungsmatrix für den aktuellen Prozess auf die gesammelten Anforderungen
-        AnforderungsMatrix[i] = Anforderung
+        anforderungsmatrix[i] = anforderung
 
 # Gibt die ausgefüllte Anforderungsmatrix zurück
-    return AnforderungsMatrix
+    return anforderungsmatrix
 
 # Definiert eine Funktion zum Lesen eines Vektors aus einer Datei
 def read_from_file(filename):
@@ -87,14 +87,14 @@ def read_from_file(filename):
     return np.array(vektor)
 
 
-def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, noninteractive, logger):
+def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, noninteractive, logger):
     # Eintrag in das Verlaufsprotokoll über den Start der Prozesssimulation; die folgenden "logger.info"-Zeilen der Methode
     # funktionieren analog und sollten über den entsprechenden Eintrag selbsterklärend sein. Daher werden diese nicht
     # erneut kommentiert
     logger.info("Prozesssimulation gestartet")
 
     # Bestimmen der Anzahl der Prozesse aus der Anforderungsmatrix
-    anzahl_prozesse = AnforderungsMatrix.shape[0]
+    anzahl_prozesse = anforderungsMatrix.shape[0]
 
     # Erstellen einer Liste, um den Abschlussstatus jedes Prozesses zu verfolgen
     finished = [False] * anzahl_prozesse
@@ -103,7 +103,7 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
 
     # Berechnen des initialen Ressourcenrestvektors
     # Dies erfolgt durch Subtrahieren der summierten Belegung von den verfügbaren Ressourcen
-    ressourcenrestvektor = Ressourcenvektor - np.sum(Belegungs_Matrix, axis=0)
+    ressourcenrestvektor = ressourcenvektor - np.sum(belegungsmatrix, axis=0)
     console.print(f"Initialer Ressourcenrestvektor: {ressourcenrestvektor}")
 
     logger.info(f"Berechnung und Ausgabe initialer Restressourcenvektor: {ressourcenrestvektor}")
@@ -116,7 +116,7 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
         # Überprüfung jedes Prozesses, um festzustellen, ob er ausgeführt werden kann
         for i in range(anzahl_prozesse):
             # Überprüfung, ob der Prozess noch nicht abgeschlossen ist und ob seine Anforderungen erfüllbar sind
-            if not finished[i] and all((AnforderungsMatrix[i] <= ressourcenrestvektor)):
+            if not finished[i] and all((anforderungsmatrix[i] <= ressourcenrestvektor)):
                 # Prozess zur Liste der ausführbaren Prozesse hinzufügen
                 ausführbare_prozesse.append(i)
 
@@ -173,10 +173,10 @@ def simulate_processes(Ressourcenvektor, Belegungs_Matrix, AnforderungsMatrix, n
             logger.error(f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}")
             console.print(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")  # Drucke den aktuellen Ressourcenrestvektor
             logger.error(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")
-            console.print(f"Anforderungen von Prozess {nächster_prozess}: {AnforderungsMatrix[nächster_prozess]}")  # Drucke die Anforderungen des Prozesses
-            logger.error(f"Anforderungen von Prozess {nächster_prozess}: {AnforderungsMatrix[nächster_prozess]}")
-            console.print(f"Belegte Ressourcen von Prozess {nächster_prozess}: {Belegungs_Matrix[nächster_prozess]}")  # Drucke die belegten Ressourcen des Prozesses
-            logger.error(f"Belegte Ressourcen von Prozess {nächster_prozess}: {Belegungs_Matrix[nächster_prozess]}")
+            console.print(f"Anforderungen von Prozess {nächster_prozess}: {anforderungsmatrix[nächster_prozess]}")  # Drucke die Anforderungen des Prozesses
+            logger.error(f"Anforderungen von Prozess {nächster_prozess}: {anforderungsmatrix[nächster_prozess]}")
+            console.print(f"Belegte Ressourcen von Prozess {nächster_prozess}: {belegungsmatrix[nächster_prozess]}")  # Drucke die belegten Ressourcen des Prozesses
+            logger.error(f"Belegte Ressourcen von Prozess {nächster_prozess}: {belegungsmatrix[nächster_prozess]}")
             break  # Beende die Schleife
 
         console.print(f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")  # Drucke den Ressourcenrestvektor nach der Ausführung des Prozesses
