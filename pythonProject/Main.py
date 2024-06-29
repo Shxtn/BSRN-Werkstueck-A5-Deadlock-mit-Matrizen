@@ -58,7 +58,7 @@ def input_Anforderungsmatrix(Prozesse, anzahl):
         # Schleife über jede Ressourcenklasse
         for l in range(anzahl):
             # Fragt den Benutzer, wie viele Ressourcen der aktuellen Klasse der aktuelle Prozess benötigt
-            vektor = IntPrompt.Ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
+            vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
 
             # Fügt die Benutzerangabe zur Liste der Anforderungen hinzu
             anforderung.append(vektor) # Das Objekt 'Vektor' wird an das Ende der Liste 'Anforderung' angehängt
@@ -199,7 +199,7 @@ def main():
     # ArgumentParser-Obkjekt (Funktion s. Kommentar bei Import-Zeile oben) wird erstellt
     parser = argparse.ArgumentParser(description='Ressourcen- und Prozessmatrix-Eingabe')
     # Pflichtargument für Kommandozeileneingabe, die den Eingabemodus des Benutzers für den Simulator festlegt
-    parser.add_argument('-mode', choices=['s', 'd'], required=True,
+    parser.add_argument('-mode', choices=['S','s', 'd','D'], required=True,
                         help="Eingabemodus: 's' für manuelle Eingabe, 'd' für Datei")
     # optionale Argumente für die Dateinamen des Ressourcenvektors, der Belegungs- und der Anforderungsmatrix im Datei-Modus
     parser.add_argument('-rv', '--ressourcenvektor', type=str, help="Dateiname für den Ressourcenvektor")
@@ -226,9 +226,9 @@ def main():
     logger = logging.getLogger()
 
     logger.info("Programm startet")
-
+    mode = args.mode.lower()
     # überprüft, ob der mauelle Modus gewählt wurde
-    if args.mode == 's':
+    if mode == 's':
 
         logger.info("Benutzer wählt manuelle Eingabe")
 
@@ -271,7 +271,7 @@ def main():
         logger.info(f"Simulation zur Überprüfung auf Deadlock gestartet: {simulate_processes}")
 
     # überprüft, ob der Modus zum Einlesen von Dateien gewählt wurde
-    elif args.mode == 'd':
+    elif mode == 'd':
 
         logger.info("Benutzer wählt Eingabe durch Einlesen einer Datei")
 
