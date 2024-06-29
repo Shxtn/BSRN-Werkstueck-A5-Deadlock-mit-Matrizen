@@ -242,10 +242,13 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe der Belegungsmatrixx mit Übergabe der Anzahl der Ressourcen
         belegungsmatrix = input_Belegungsmatrix(anzahl)
-        #KOMMENTIEREN
+        
+        # Erstellt eine Tabelle mit dem Titel "Belegungsmatrix"
         table = Table(title="Belegungsmatrix")
+        # Fügt Spalten zur Tabelle hinzu, basierend auf der Anzahl der Spalten in der Belegungsmatrix
         for col in range(belegungsmatrix.shape[1]):
             table.add_column(f"Ressourcenklasse {col + 1}", justify="right")
+        # Fügt Zeilen zur Tabelle hinzu, wobei jeder Eintrag in der Matrix in einen String umgewandelt wird
         for row in belegungsmatrix:
             table.add_row(*map(str, row))
         console.print(table)
