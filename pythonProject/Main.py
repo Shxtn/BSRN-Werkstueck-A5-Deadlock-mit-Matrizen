@@ -24,9 +24,9 @@ def input_Ressourcenvektor():
 def input_Belegungsmatrix(anzahl):
     # Abfrage wie viele Prozesse der Benutzer haben will
     prozesse = IntPrompt.ask("Geben sie die Anzahl der Prozesse an: ")  # Fragt den Benutzer nach der Anzahl der Prozesse.
-    belegungsmatrix = np.zeros((Prozesse, anzahl), dtype=int)  # Erstellt eine Matrix aus Nullen mit der Größe (Prozesse, anzahl).
+    belegungsmatrix = np.zeros((prozesse, anzahl), dtype=int)  # Erstellt eine Matrix aus Nullen mit der Größe (Prozesse, anzahl).
 
-    for i in range(Prozesse):  # Iteriert über die Anzahl der Prozesse.
+    for i in range(prozesse):  # Iteriert über die Anzahl der Prozesse.
         prozessanzahl = i + 1  # Zählt die Prozessnummer.
 
         # Erstellung einer leeren Liste
@@ -34,12 +34,12 @@ def input_Belegungsmatrix(anzahl):
 
         # Abfrage wie viel die jeweiligen Prozesse von den oben angegebenen Ressourcenklassen benötigen
         for j in range(anzahl):  # Iteriert über die Anzahl der Ressourcenklassen.
-            vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {j+1}:")  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
+            vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {prozessanzahl} von der Ressourcenklasse {j+1}:")  # Fragt nach der benötigten Menge der aktuellen Ressourcenklasse für den aktuellen Prozess.
 
             # Hinzufügen des Vektors zur Liste
-            belegung.append(Vektor)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
+            belegung.append(vektor)  # Fügt die Menge der aktuellen Ressourcenklasse zur Liste hinzu.
 
-        belegungsmatrix[i] = Belegung  # Setzt die Belegung des aktuellen Prozesses in die Belegungsmatrix.
+        belegungsmatrix[i] = belegung  # Setzt die Belegung des aktuellen Prozesses in die Belegungsmatrix.
     return np.array(belegungsmatrix)  # Gibt die Belegungsmatrix als NumPy-Array zurück.
 
 # Die Funktion dient der Eingabe der Anforderungsmatrix
@@ -94,7 +94,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
     logger.info("Prozesssimulation gestartet")
 
     # Bestimmen der Anzahl der Prozesse aus der Anforderungsmatrix
-    anzahl_prozesse = anforderungsMatrix.shape[0]
+    anzahl_prozesse = anforderungsmatrix.shape[0]
 
     # Erstellen einer Liste, um den Abschlussstatus jedes Prozesses zu verfolgen
     finished = [False] * anzahl_prozesse
@@ -165,7 +165,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
                     logger.error(f"Fehler: Eingabe {nächster_prozess} des Benutzers ist ungültig")
 
         # Aktualisiere den Ressourcenrestvektor mit den freigegebenen Ressourcen des ausgeführten Prozesses
-        neue_ressourcenrestvektor = (ressourcenrestvektor + Belegungs_Matrix[nächster_prozess])
+        neue_ressourcenrestvektor = (ressourcenrestvektor + belegungsmatrix[nächster_prozess])
 
         # Überprüfen, ob negative Werte im neuen Ressourcenrestvektor vorhanden sind
         if any(neue_ressourcenrestvektor < 0):  # Wenn irgendein Wert im neuen Vektor negativ ist
