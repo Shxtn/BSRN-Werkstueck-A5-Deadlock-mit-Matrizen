@@ -21,4 +21,4 @@ Deadlock-Erkennung: Analysiert Matrizen, um potenzielle Deadlocks zu identifizie
 Visualisierung: Grafische Darstellung der Prozesse und Ressourcen.
 
 ## Anleitung 
-Nachdem die Vorrausetzungen erfüllt sind, starte 
+Nachdem die Vorrausetzungen erfüllt sind, starte das Programm im Terminal mit dem Befehl 'python *DateiName*.py' und den Kommandozeilenargumenten 
