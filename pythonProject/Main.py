@@ -152,7 +152,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
                         logger.info(f"Gewählter Prozess {nächster_prozess} ist ausführbar")
                         break  # Wenn ja, verlasse die Schleife
                     else:  # Wenn nein
-                        console.print
+                        console.print(
                             f"[red]Prozess {nächster_prozess} kann nicht ausgeführt werden. Bitte wählen Sie einen anderen Prozess.[/red]")  # Informiere den Benutzer, dass dieser Prozess nicht ausgeführt werden kann
 
                         logger.info(f"Gewählter Prozess {nächster_prozess} ist nicht ausführbar")
