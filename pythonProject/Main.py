@@ -340,6 +340,7 @@ def main():
 
         simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, args.noninteractive, logger)
         logger.info(f"Simulation zur Überprüfung auf Deadlock gestartet: {simulate_processes}")
+        print("Merge")
 
 
 # Ausführung der Main, bei direkter Ausführung des Skripts
