@@ -235,7 +235,7 @@ def main():
 
         # manuelle Eingabe und anschließende Ausgabe des Ressourcenvektors
         ressourcenvektor = input_Ressourcenvektor()
-        console.print("Ressourcenvektor", ressourcenvektor)
+        console.print("[green]Ressourcenvektor[/green]", ressourcenvektor)
         logger.info(f"Eingegebener Ressourcenvektor: {ressourcenvektor}")
 
         # Anzahl der Ressourcen wird bestimmt und in der Variablen "anzahl" gespeichert
@@ -282,7 +282,7 @@ def main():
         # Überprüfung, ob die Dateinamen korrekt in die Kommandozeile eingegeben wurden und gibt Fehlermeldung aus, falls nicht
         if not (args.ressourcenvektor and args.belegungsmatrix and args.anforderungsmatrix):
             console.print(
-                "Fehler: Wenn der Modus 'd' gewählt wird, müssen die Namen der Dateien für den Ressourcenvektor, die Belegungsmatrix und die Anforderungsmatrix eingegeben werden ")
+                "[red]Fehler: Wenn der Modus 'd' gewählt wird, müssen die Namen der Dateien für den Ressourcenvektor, die Belegungsmatrix und die Anforderungsmatrix eingegeben werden[/red]")
             logger.error(
                 "Fehler: Kein Dateiname für Einlesen des Ressourcenvektors, der Belegungsmatrix oder der Anforderungsmatrix eingegeben")
             return
@@ -290,7 +290,7 @@ def main():
         # Main-Methode durchläuft die gleichen Schritte wie im manuellen Modeus, nur dass die Daten durch das Auslesen der Dateien
         # und nicht mehr durch manuelle Eingabe eingespeist werden
         ressourcenvektor = read_from_file(args.ressourcenvektor)
-        console.print("Ressourcenvektor:", ressourcenvektor)
+        console.print("[green]Ressourcenvektor:[/green]", ressourcenvektor)
         logger.info(f"Eingelesener Ressourcenvektor: {ressourcenvektor}")
 
         anzahl = len(ressourcenvektor)
