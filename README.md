@@ -19,3 +19,6 @@ Bibliotheken: [numpy](https://github.com/numpy/numpy) , [argsparse](https://gith
 Deadlock-Erkennung: Analysiert Matrizen, um potenzielle Deadlocks zu identifizieren.
 
 Visualisierung: Grafische Darstellung der Prozesse und Ressourcen.
+
+## Anleitung 
+Nachdem die Vorrausetzungen erfüllt sind, starte 
