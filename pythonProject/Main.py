@@ -58,7 +58,7 @@ def input_Anforderungsmatrix(Prozesse, anzahl):
         # Schleife über jede Ressourcenklasse
         for l in range(anzahl):
             # Fragt den Benutzer, wie viele Ressourcen der aktuellen Klasse der aktuelle Prozess benötigt
-            vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {Prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
+            vektor = IntPrompt.ask(f"Geben sie an wie viele Ressourcen der Prozess {prozessanzahl} von der Ressourcenklasse {l + 1} benötigt:")
 
             # Fügt die Benutzerangabe zur Liste der Anforderungen hinzu
             anforderung.append(vektor) # Das Objekt 'Vektor' wird an das Ende der Liste 'Anforderung' angehängt
