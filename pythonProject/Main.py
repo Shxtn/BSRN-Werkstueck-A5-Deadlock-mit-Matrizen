@@ -3,7 +3,7 @@ import numpy as np  # Importiert das NumPy-Modul, das für numerische Operatione
 import random
 import logging      # importiert das Modul logging, mit dem wir ein Verlaufsprotokoll über die Aktivitäten des Simulators erstellen können
 import argparse     # importiert das Modul argparse, wird benötigt um die Kommandozeilenargumente der Main zu analysieren und interpretieren
-from rich.prompt import Prompt, IntPrompt 
+from rich.prompt import IntPrompt 
 from rich.console import Console
 from rich.table import Table
 
