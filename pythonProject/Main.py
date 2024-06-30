@@ -104,7 +104,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
     # Berechnen des initialen Ressourcenrestvektors
     # Dies erfolgt durch Subtrahieren der summierten Belegung von den verfügbaren Ressourcen
     ressourcenrestvektor = ressourcenvektor - np.sum(belegungsmatrix, axis=0)
-    console.print(f"Initialer Ressourcenrestvektor: {ressourcenrestvektor}")
+    console.print(f"[yellow]Initialer Ressourcenrestvektor: {ressourcenrestvektor}[/yellow]")
 
     logger.info(f"Berechnung und Ausgabe initialer Restressourcenvektor: {ressourcenrestvektor}")
 
@@ -124,7 +124,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
 
         # Wenn keine ausführbaren Prozesse vorhanden sind, liegt ein Deadlock vor
         if not ausführbare_prozesse:
-            console.print("Deadlock: Kein Prozess kann ausgeführt werden.")
+            console.print("[red]Deadlock: Kein Prozess kann ausgeführt werden.[/red]")
 
             logger.info("Kein Prozess ausführbar, Deadlock!")
             break
@@ -140,7 +140,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
 
         else:  # Dieser Block wird ausgeführt, wenn der vorhergehende if-Block nicht zutrifft
             while True:  # Beginne eine unendliche Schleife, die solange läuft, bis sie manuell unterbrochen wird
-                console.print(f"Ausführbare Prozesse: {ausführbare_prozesse}")  # Drucke die Liste der ausführbaren Prozesse
+                console.print(f"[blue]Ausführbare Prozesse: {ausführbare_prozesse}[/blue]")  # Drucke die Liste der ausführbaren Prozesse
                 try:  # Versuche den folgenden Block auszuführen, um potenzielle Fehler abzufangen
                     nächster_prozess = IntPrompt.ask( "Welcher Prozess soll als nächstes ausgeführt werden? ")  # Frage den Benutzer nach der nächsten Prozessnummer und konvertiere die Eingabe in einen Integer
 
@@ -152,12 +152,13 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
                         logger.info(f"Gewählter Prozess {nächster_prozess} ist ausführbar")
                         break  # Wenn ja, verlasse die Schleife
                     else:  # Wenn nein
-                        console.print(f"Prozess {nächster_prozess} kann nicht ausgeführt werden. Bitte wählen Sie einen anderen Prozess.")  # Informiere den Benutzer, dass dieser Prozess nicht ausgeführt werden kann
+                        console.print
+                            f"[red]Prozess {nächster_prozess} kann nicht ausgeführt werden. Bitte wählen Sie einen anderen Prozess.[/red]")  # Informiere den Benutzer, dass dieser Prozess nicht ausgeführt werden kann
 
                         logger.info(f"Gewählter Prozess {nächster_prozess} ist nicht ausführbar")
 
                 except ValueError:  # Fange den Fehler ab, wenn die Eingabe keine gültige Zahl ist
-                    console.print("Ungültige Eingabe. Bitte eine gültige Prozessnummer eingeben.")  # Informiere den Benutzer über die ungültige Eingabe
+                    console.print("[red]Ungültige Eingabe. Bitte eine gültige Prozessnummer eingeben.[/red]")  # Informiere den Benutzer über die ungültige Eingabe
 
                     # Fehlermeldung im Verlaufsprotokoll über eine ungültige Nutzereingabe bei der Wahl des nächsten auszuführenden Prozesses;
                     # die folgenden "logger.error"-Zeilen der Methode funktionieren analog und sollten über den entsprechenden Eintrag
@@ -169,9 +170,9 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
 
         # Überprüfen, ob negative Werte im neuen Ressourcenrestvektor vorhanden sind
         if any(neue_ressourcenrestvektor < 0):  # Wenn irgendein Wert im neuen Vektor negativ ist
-            console.print(f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}.")  # Fehlerausgabe
+            console.print( f"[red]Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}.[/red]")  # Fehlerausgabe
             logger.error(f"Fehler: Negative Werte im Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}")
-            console.print(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")  # Drucke den aktuellen Ressourcenrestvektor
+            console.print(f"[yellow]Aktueller Ressourcenrestvektor: {ressourcenrestvektor}[/yellow]")  # Drucke den aktuellen Ressourcenrestvektor
             logger.error(f"Aktueller Ressourcenrestvektor: {ressourcenrestvektor}")
             console.print(f"Anforderungen von Prozess {nächster_prozess}: {anforderungsmatrix[nächster_prozess]}")  # Drucke die Anforderungen des Prozesses
             logger.error(f"Anforderungen von Prozess {nächster_prozess}: {anforderungsmatrix[nächster_prozess]}")
@@ -179,7 +180,7 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
             logger.error(f"Belegte Ressourcen von Prozess {nächster_prozess}: {belegungsmatrix[nächster_prozess]}")
             break  # Beende die Schleife
 
-        console.print(f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")  # Drucke den Ressourcenrestvektor nach der Ausführung des Prozesses
+        console.print(f"[yellow1]Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}[/yellow1]")  # Drucke den Ressourcenrestvektor nach der Ausführung des Prozesses
         logger.info(f"Ressourcenrestvektor nach Ausführung von Prozess {nächster_prozess}: {ressourcenrestvektor}")
 
         # Aktualisiere den Ressourcenrestvektor
@@ -187,10 +188,10 @@ def simulate_processes(ressourcenvektor, belegungsmatrix, anforderungsmatrix, no
 
         # Markiere den Prozess als abgeschlossen
         finished[nächster_prozess] = True
-        console.print(f"Prozess {nächster_prozess} ist abgeschlossen. Ressourcenrestvektor: {ressourcenrestvektor}")  # Informiere über den Abschluss des Prozesses und drucke den aktuellen Ressourcenrestvektor
+        console.print(f"[bright_magenta]Prozess {nächster_prozess} ist abgeschlossen. Ressourcenrestvektor: {ressourcenrestvektor}[/bright_magenta]")  # Informiere über den Abschluss des Prozesses und drucke den aktuellen Ressourcenrestvektor
         logger.info(f"Prozess {nächster_prozess} abgeschlossen, Ressourcenrestvektor: {ressourcenrestvektor}")
 
-        console.print("Simulation abgeschlossen. Alle ausführbaren Prozesse wurden bearbeitet oder ein Deadlock ist aufgetreten")  # Drucke eine Abschlussmeldung der Simulation
+        console.print("[chartreuse3]Simulation abgeschlossen. Alle ausführbaren Prozesse wurden bearbeitet [/chartreuse3]")  # Drucke eine Abschlussmeldung der Simulation
         logger.info("Simulation abgeschlossen, alle ausführbaren Prozesse bearbeitet oder Deadlock")
 
 
